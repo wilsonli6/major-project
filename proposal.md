@@ -1,21 +1,27 @@
 # Major Project Proposal
 Some short description of the project will go here...
+
 I will be trying to make a game similar to head soccer, with many different characters that you can choose from, which will all have different abilities. 
 
 ## Need to Have List
-- things that must be completed
-- more things that you think must exist
-- etc.
+- things that must be completed, more things that you think must exist, etc.
+
 - start screen with character selection
 - implementation of score board
 - two working nets with boundaries
-- working gravity
-- 
+- working gravity for the ball
+- different abilities for each individual character
+- keys activate the abilities
+- background music
 
 
 ## Nice to Have List
-- things to do after done the need to have's
-- sound effects
-- better graphics
-- etc...
+- things to do after done the need to have's: sound effects, better graphics, etc...
+
 - save progress
+- single player mode vs. AI (different levels)
+- sound effects for different actions
+- practice mode: Single Player (shooting at a net)
+- mini game: possession game
+- coins/currency awarded to player after each game
+- store to purchase more upgrades
