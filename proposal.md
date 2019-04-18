@@ -1,7 +1,7 @@
 # Major Project Proposal
 Some short description of the project will go here...
 
-I will be trying to make a game similar to head soccer, with many different characters that you can choose from, which will all have different abilities. I will aim to make it a player vs. player game, with different characters that have different abilities. My goal is to refine the looks of the game as well as possibly create different modes, ex. practice mode. Another idea is to create a currency that can be used to upgrade the game.
+I will be trying to make a game similar to head soccer, with many different characters that you can choose from, which will all have different abilities. I will aim to make it a player vs. player game, with different characters that have different abilities. My goal is to refine the looks of the game as well as possibly create different modes, ex. practice mode. Another idea is to create a currency that can be used to upgrade the game. I have decided to choose to make this game because I want to work with simulating gravity (using the soccer ball), and also working with states in a more sophisticated way. 
 
 ## Need to Have List
 - things that must be completed, more things that you think must exist, etc.
