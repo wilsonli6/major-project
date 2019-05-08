@@ -59,6 +59,8 @@ function preload() {
 }
 
 function setup() {
+  song.setVolume(1);
+
   createCanvas(windowWidth, windowHeight);
   backgroundImage = loadImage("assets/field.png");
   //determine start screen measurements
@@ -107,16 +109,13 @@ function setup() {
   cellPictureWidth = cellSize;
   cellPictureHeight = cellSize;
 
-  song.setVolume(1);
-  if (state === "startScreen") {
-    song.play();
-  }
 }
 
 function draw() {
   background(220);
   xcoord = floor((mouseX-xOffset)/cellSize);
   ycoord = floor((mouseY-yOffset)/cellSize);
+  playMusic();
 
   if (state === "startScreen") {
     checkCursor();
@@ -227,7 +226,7 @@ function displayPlayer() {
   imageMode(CENTER);
   image(playerImage, playerX, playerY, playerWidth, playerHeight);
   if (ability === "tall") {
-    image();
+    playerImage = bigPlayer.facingLeft;
   }
 }
 
@@ -241,6 +240,9 @@ function movePlayer() {
     }
     directionOfMovement = "left";
     playerImage = player.facingLeft;
+    if (ability === "tall") {
+      playerImage = bigPlayer.facingLeft;
+    }
   }
 
   if (keyIsDown(RIGHT_ARROW)) {
@@ -268,10 +270,12 @@ function animatePlayer() {
   //if the spacebar is pressed
   if (keyIsDown(32) && directionOfMovement === "right") {
     playerImage = player.kickingRight;
+    // eslint-disable-next-line no-undef
     setTimeout(stopKicking, 100);
   }
   else if (keyIsDown(32) && directionOfMovement === "left") {
     playerImage = player.kickingLeft;
+    // eslint-disable-next-line no-undef
     setTimeout(stopKicking, 100);
   }
 } 
@@ -380,4 +384,13 @@ function displayAbilities() {
   image(tallAbility, 1*cellSize, 1*cellSize, cellPictureWidth, cellPictureHeight);
   image(strongAbility, 1*cellSize, 0, cellPictureWidth, cellPictureHeight);
   image(shootingAbility, 0, 1*cellSize, cellPictureWidth, cellPictureHeight);
+}
+
+function playMusic() {
+  if (state === "startScreen" && !song.isPlaying()) {
+    song.play();
+  }
+  if (state !== "startScreen") {
+    song.stop();
+  }
 }
