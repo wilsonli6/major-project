@@ -227,6 +227,7 @@ function displayPlayer() {
   image(playerImage, playerX, playerY, playerWidth, playerHeight);
   if (ability === "tall") {
     playerImage = bigPlayer.facingLeft;
+    image(playerImage, playerX, playerY, playerWidth, playerHeight*1.5);
   }
 }
 
@@ -255,6 +256,9 @@ function movePlayer() {
     directionOfMovement = "right";
     playerImage = player.facingRight;
   }
+  // if (ability === "tallAbility") {
+
+  // }
 }
 
 function stopKicking() {
@@ -387,6 +391,7 @@ function displayAbilities() {
 }
 
 function playMusic() {
+  
   if (state === "startScreen" && !song.isPlaying()) {
     song.play();
   }
