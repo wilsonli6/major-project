@@ -26,7 +26,7 @@ let backgroundImage;
 let directionOfMovement;
 let gravity, acceleration, xVelocity, yVelocity, ground;
 let xcoord, ycoord;
-let song;
+let song, march, toccata;
 
 function preload() {
   //load images
@@ -56,10 +56,14 @@ function preload() {
   //Song
   soundFormats("mp3");
   song = loadSound("assets/music.mp3");
+  toccata = loadSound("assets/toccata.mp3");
+  march = loadSound("assets/march.mp3");
 }
 
 function setup() {
   song.setVolume(1);
+  toccata.setVolume(1);
+  march.setVolume(1);
 
   createCanvas(windowWidth, windowHeight);
   backgroundImage = loadImage("assets/field.png");
@@ -240,9 +244,11 @@ function movePlayer() {
       playerX -= 10;
     }
     directionOfMovement = "left";
-    playerImage = player.facingLeft;
     if (ability === "tall") {
       playerImage = bigPlayer.facingLeft;
+    }
+    else {
+      playerImage = player.facingLeft;
     }
   }
 
@@ -254,31 +260,53 @@ function movePlayer() {
       playerX += 10;
     }
     directionOfMovement = "right";
-    playerImage = player.facingRight;
+    if (ability === "tall") {
+      playerImage = bigPlayer.facingRight;
+    }
+    else {
+      playerImage = player.facingRight;
+    }
   }
-  // if (ability === "tallAbility") {
-
-  // }
 }
 
 function stopKicking() {
   if (directionOfMovement === "left") {
-    playerImage = player.facingLeft;
+    if (ability === "tall") {
+      playerImage = bigPlayer.facingLeft;
+    }
+    else {
+      playerImage = player.facingLeft;
+    }
   }
   else if (directionOfMovement === "right") {
-    playerImage = player.facingRight;
+    if (ability === "tall") {
+      playerImage = bigPlayer.facingRight;
+    }
+    else {
+      playerImage = player.facingRight;
+    }
   }
 }
 
 function animatePlayer() {
   //if the spacebar is pressed
   if (keyIsDown(32) && directionOfMovement === "right") {
-    playerImage = player.kickingRight;
+    if (ability === "tall") {
+      playerImage = bigPlayer.facingRight;
+    }
+    else {
+      playerImage = player.facingRight;
+    }
     // eslint-disable-next-line no-undef
     setTimeout(stopKicking, 100);
   }
   else if (keyIsDown(32) && directionOfMovement === "left") {
-    playerImage = player.kickingLeft;
+    if (ability === "tall") {
+      playerImage = bigPlayer.facingLeft;
+    }
+    else {
+      playerImage = player.facingLeft;
+    }
     // eslint-disable-next-line no-undef
     setTimeout(stopKicking, 100);
   }
@@ -309,7 +337,27 @@ function ballIsKicked() {
       xVelocity = -3;
     }
   }
+  if (playerImage === bigPlayer.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
+  && Math.abs(playerY - soccerBallY) <= 90){
+    soccerBallSpeedX = 30;
+    soccerBallX += soccerBallSpeedX;
+    acceleration = -5;
+    if (soccerBallY < ground) {
+      xVelocity = 20;
+    }
+  }
+  if (playerImage === bigPlayer.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
+  && Math.abs(playerY - soccerBallY) <= 90) {
+    soccerBallSpeedX = -20;
+    soccerBallX += soccerBallSpeedX;
+    acceleration = -2;
+    //the left kick is not as powerful
+    if (soccerBallY < ground) {
+      xVelocity = -3;
+    }
+  }
 }
+
 
 function ballGravity() {
   yVelocity += acceleration;
@@ -391,11 +439,24 @@ function displayAbilities() {
 }
 
 function playMusic() {
-  
   if (state === "startScreen" && !song.isPlaying()) {
     song.play();
   }
   if (state !== "startScreen") {
     song.stop();
+  }
+
+  if (state === "clickPlay" && !march.isPlaying()) {
+    march.play();
+  }
+  if (state !== "clickPlay") {
+    march.play();
+  }
+
+  if (state === "playSoccer" && !toccata.isPlaying()) {
+    toccata.play();
+  }
+  if (state !== "playSoccer") {
+    toccata.stop();
   }
 }
