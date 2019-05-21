@@ -292,20 +292,20 @@ function animatePlayer() {
   //if the spacebar is pressed
   if (keyIsDown(32) && directionOfMovement === "right") {
     if (ability === "tall") {
-      playerImage = bigPlayer.facingRight;
+      playerImage = bigPlayer.kickingRight;
     }
     else {
-      playerImage = player.facingRight;
+      playerImage = player.kickingRight;
     }
     // eslint-disable-next-line no-undef
     setTimeout(stopKicking, 100);
   }
   else if (keyIsDown(32) && directionOfMovement === "left") {
     if (ability === "tall") {
-      playerImage = bigPlayer.facingLeft;
+      playerImage = bigPlayer.kickingLeft;
     }
     else {
-      playerImage = player.facingLeft;
+      playerImage = player.kickingLeft;
     }
     // eslint-disable-next-line no-undef
     setTimeout(stopKicking, 100);
@@ -453,7 +453,7 @@ function playMusic() {
     march.play();
   }
   if (state !== "clickPlay") {
-    march.play();
+    march.stop();
   }
 
   if (state === "playSoccer" && !toccata.isPlaying()) {
