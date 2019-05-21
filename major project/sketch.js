@@ -327,6 +327,7 @@ function ballIsKicked() {
       }
     }
   }
+
   if (playerImage === player.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
   && Math.abs(playerY - soccerBallY) <= 90) {
     soccerBallSpeedX = -20;
@@ -337,6 +338,7 @@ function ballIsKicked() {
       xVelocity = -3;
     }
   }
+
   if (playerImage === bigPlayer.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
   && Math.abs(playerY - soccerBallY) <= 90){
     soccerBallSpeedX = 30;
@@ -383,10 +385,12 @@ function boundaries() {
     soccerBallX = width - soccerBallWidth;
     xVelocity = xVelocity * -1;
   }
+
   if (soccerBallX < 0) {
     soccerBallX = 0 + soccerBallWidth;
     xVelocity = xVelocity * -1;
   }
+
   if (soccerBallY < (0 + soccerBallHeight/2)) {
     yVelocity = yVelocity * -1;
   }
@@ -400,14 +404,13 @@ function boundaries() {
   }
 
   //net boundaries
-  if (Math.abs(soccerBallX - soccerNetX) <= 20){
+  if (Math.abs(soccerBallX - soccerNetX) <= 20) {
     xVelocity = 0;
   }
    
   if (Math.abs(soccerBallX - soccerNetX) <= 20 && soccerBallY < height/4){
     xVelocity = -5;
     yVelocity = yVelocity *-1;
-
   }
 }
 
