@@ -300,7 +300,7 @@ function animatePlayer() {
     if (ability === "tall") {
       playerImage = bigPlayer.kickingRight;
     }
-    else {
+    else if (ability !== "tall") {
       playerImage = player.kickingRight;
     }
     // eslint-disable-next-line no-undef
@@ -310,7 +310,7 @@ function animatePlayer() {
     if (ability === "tall") {
       playerImage = bigPlayer.kickingLeft;
     }
-    else {
+    else if (ability !== "tall") {
       playerImage = player.kickingLeft;
     }
     // eslint-disable-next-line no-undef
