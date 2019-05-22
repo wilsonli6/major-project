@@ -21,7 +21,7 @@ let playButton;
 let buttonX, buttonY, buttonWidth, buttonHeight, buttonScalar;
 let soccerBall, soccerBallX, soccerBallY, soccerBallWidth, soccerBallHeight, soccerBallScalar, soccerBallRadius;
 let soccerBallSpeedX, soccerBallSpeedY;
-let soccerNet, soccerNetX, soccerNetY, soccerNetWidth, soccerNetHeight, soccerNetScalar;
+let soccerNet, soccerNet2, soccerNetX, soccerNetY, soccerNet2X, soccerNet2Y, soccerNetWidth, soccerNetHeight, soccerNetScalar;
 let backgroundImage;
 let directionOfMovement;
 let gravity, acceleration, xVelocity, yVelocity, ground;
@@ -33,6 +33,7 @@ function preload() {
   soccerBall = loadImage("assets/soccerBall.png");
   playButton = loadImage("assets/playButton.png");
   soccerNet = loadImage("assets/net.png");
+  soccerNet2 = loadImage("assets.net2.png");
   // I organized the player into one object to make it easier to manage
   player = {
     kickingRight: loadImage("assets/kickingLeft.png"),
@@ -95,6 +96,8 @@ function setup() {
   soccerNetWidth = windowWidth/6;
   soccerNetX = width - soccerNetWidth/2;
   soccerNetY = height - soccerNetHeight/2;
+  soccerNet2X = 0 + soccerNetWidth/2;
+  soccerNet2Y = height - soccerNetHeight/2;
 
   //player measurements
   playerHeight = windowHeight/3;
@@ -224,14 +227,17 @@ function displayBall() {
 function displayNet() {
   imageMode(CENTER);
   image(soccerNet, soccerNetX, soccerNetY, soccerNetWidth, soccerNetHeight);
+  image(soccerNet2, soccerNet2X, soccerNet2Y, soccerNetWidth, soccerNetHeight);
 }
 
 function displayPlayer() {
   imageMode(CENTER);
-  image(playerImage, playerX, playerY, playerWidth, playerHeight);
   if (ability === "tall") {
     playerImage = bigPlayer.facingLeft;
-    image(playerImage, playerX, playerY, playerWidth, playerHeight*1.5);
+    image(playerImage, playerX, playerY, playerWidth, playerHeight*1.8);
+  }
+  else {
+    image(playerImage, playerX, playerY, playerWidth, playerHeight);
   }
 }
 
@@ -410,12 +416,12 @@ function boundaries() {
    
   if (Math.abs(soccerBallX - soccerNetX) <= 20 && soccerBallY < height/4){
     xVelocity = -5;
-    yVelocity = yVelocity *-1;
+    yVelocity = yVelocity * -1;
   }
 }
 
 function goalScored() {
-  if (Math.abs(soccerBallX - soccerNetX) <= 40 && soccerBallY > height/4){
+  if (Math.abs(soccerBallX - soccerNetX) <= 45 && soccerBallY > height/4){
     state = "startScreen";
   }
 }
