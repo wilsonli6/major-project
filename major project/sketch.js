@@ -7,21 +7,17 @@
 // - describe what you did to take this project "above and beyond"
 //with the help of Mr. Schellenberg, I was able to create a gravity-like feel for the ball. I also had to figure out how to make simple animations for my character when it kicks the ball.
 //the dimensions for the net were also kind of hard... so there's that
-let player, playerHeight, playerWidth, playerX, playerY, playerImage;
-let bigPlayer;
-let state, ability;
-let fastAbility, tallAbility, strongAbility, shootingAbility;
+let player, bigPlayer, playerHeight, playerWidth, playerX, playerY, playerImage;
+let state, ability, fastAbility, tallAbility, strongAbility, shootingAbility;
 let cellPictureHeight, cellPictureWidth;
 let txt;
 let gridSize = 2;
 let cellSize;
-let xOffset;
-let yOffset;
-let playButton;
-let buttonX, buttonY, buttonWidth, buttonHeight, buttonScalar;
+let xOffset, yOffset;
+let playButton, buttonX, buttonY, buttonWidth, buttonHeight, buttonScalar;
 let soccerBall, soccerBallX, soccerBallY, soccerBallWidth, soccerBallHeight, soccerBallScalar, soccerBallRadius;
 let soccerBallSpeedX, soccerBallSpeedY;
-let soccerNet, soccerNet2, soccerNetX, soccerNetY, soccerNet2X, soccerNet2Y, soccerNetWidth, soccerNetHeight, soccerNetScalar;
+let soccerNet, soccerGoal, soccerNetX, soccerNetY, soccerGoalX, soccerGoalY, soccerNetWidth, soccerNetHeight, soccerNetScalar;
 let backgroundImage;
 let directionOfMovement;
 let gravity, acceleration, xVelocity, yVelocity, ground;
@@ -33,7 +29,7 @@ function preload() {
   soccerBall = loadImage("assets/soccerBall.png");
   playButton = loadImage("assets/playButton.png");
   soccerNet = loadImage("assets/net.png");
-  soccerNet2 = loadImage("assets.net2.png");
+  soccerGoal = loadImage("assets/goal.png");
   // I organized the player into one object to make it easier to manage
   player = {
     kickingRight: loadImage("assets/kickingLeft.png"),
@@ -96,8 +92,8 @@ function setup() {
   soccerNetWidth = windowWidth/6;
   soccerNetX = width - soccerNetWidth/2;
   soccerNetY = height - soccerNetHeight/2;
-  soccerNet2X = 0 + soccerNetWidth/2;
-  soccerNet2Y = height - soccerNetHeight/2;
+  soccerGoalX = 0 + soccerNetWidth/2;
+  soccerGoalY = height - soccerNetHeight/2;
 
   //player measurements
   playerHeight = windowHeight/3;
@@ -227,7 +223,7 @@ function displayBall() {
 function displayNet() {
   imageMode(CENTER);
   image(soccerNet, soccerNetX, soccerNetY, soccerNetWidth, soccerNetHeight);
-  image(soccerNet2, soccerNet2X, soccerNet2Y, soccerNetWidth, soccerNetHeight);
+  image(soccerGoal, soccerGoalX, soccerGoalY, soccerNetWidth, soccerNetHeight);
 }
 
 function displayPlayer() {
@@ -300,7 +296,7 @@ function animatePlayer() {
     if (ability === "tall") {
       playerImage = bigPlayer.kickingRight;
     }
-    else if (ability !== "tall") {
+    else {
       playerImage = player.kickingRight;
     }
     // eslint-disable-next-line no-undef
@@ -310,7 +306,7 @@ function animatePlayer() {
     if (ability === "tall") {
       playerImage = bigPlayer.kickingLeft;
     }
-    else if (ability !== "tall") {
+    else {
       playerImage = player.kickingLeft;
     }
     // eslint-disable-next-line no-undef
@@ -397,7 +393,7 @@ function boundaries() {
     xVelocity = xVelocity * -1;
   }
 
-  if (soccerBallY < (0 + soccerBallHeight/2)) {
+  if (soccerBallY < 0 + soccerBallHeight/2) {
     yVelocity = yVelocity * -1;
   }
   
