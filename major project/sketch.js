@@ -101,7 +101,7 @@ function setup() {
   playerX = width - playerWidth*7;
   playerY = height - playerHeight/2;
   directionOfMovement = "right"; 
-  playerImage = player.facingLeft;
+  playerImage = player.facingRight;
 
   //startscreen measurements
   backgroundImage = loadImage("assets/stadium.png");
@@ -136,7 +136,7 @@ function draw() {
     soccerBallX = 0 + soccerBallRadius;
     soccerBallY = ground;
   }
-  if (state === "playSoccer"){
+  if (state === "playSoccer") {
     noCursor();
     imageMode(CORNER);
     image(backgroundImage, 0, 0, windowWidth, windowHeight);
@@ -163,21 +163,25 @@ function mousePressed() {
     if (xcoord === 0 && ycoord === 0) {
       state = "clickPlay";
       ability = "fast";
+      playerImage = player.facingRight;
     }
 
     else if (xcoord === 0 && ycoord === 1) {
       state = "clickPlay";
       ability = "strong";
+      playerImage = player.facingRight;
     }
 
     else if (xcoord === 1 && ycoord === 0) {
       state = "clickPlay";
       ability = "shoot";
+      playerImage = player.facingRight;
     }
 
     else if (xcoord === 1 && ycoord === 1) {
       state = "clickPlay";
       ability = "tall";
+      playerImage = bigPlayer.facingRight;
     }
   }
 }
@@ -229,8 +233,7 @@ function displayNet() {
 function displayPlayer() {
   imageMode(CENTER);
   if (ability === "tall") {
-    playerImage = bigPlayer.facingLeft;
-    image(playerImage, playerX, playerY, playerWidth, playerHeight*1.8);
+    image(playerImage, playerX, playerY, playerWidth*1.25, playerHeight*1.8);
   }
   else {
     image(playerImage, playerX, playerY, playerWidth, playerHeight);
