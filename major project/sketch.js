@@ -1,12 +1,8 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-// States Variable Assignment
 // Wilson Li
 // March 25th, 2019
 //Soccer Ball Assignment
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-//with the help of Mr. Schellenberg, I was able to create a gravity-like feel for the ball. I also had to figure out how to make simple animations for my character when it kicks the ball.
-//the dimensions for the net were also kind of hard... so there's that
+
 let player, bigPlayer, playerHeight, playerWidth, playerX, playerY, playerImage;
 let state, ability, fastAbility, tallAbility, strongAbility, shootingAbility;
 let cellPictureHeight, cellPictureWidth;
@@ -23,6 +19,7 @@ let directionOfMovement;
 let gravity, acceleration, xVelocity, yVelocity, ground;
 let xcoord, ycoord;
 let song, march, toccata;
+let rotation = 0;
 
 function preload() {
   //load images
@@ -30,6 +27,7 @@ function preload() {
   playButton = loadImage("assets/playButton.png");
   soccerNet = loadImage("assets/net.png");
   soccerGoal = loadImage("assets/goal.png");
+
   // I organized the player into one object to make it easier to manage
   player = {
     kickingRight: loadImage("assets/kickingLeft.png"),
@@ -38,12 +36,14 @@ function preload() {
     facingRight: loadImage("assets/standing.png")
   };
 
+  //big player for tall ability
   bigPlayer = {
     kickingRight: loadImage("assets/statureRight.png"),
     kickingLeft : loadImage("assets/statureLeft.png"),
     facingLeft: loadImage("assets/stature.png"),
     facingRight: loadImage("assets/stature.png")
   };
+
   //Images for the start screen
   fastAbility = loadImage("assets/fast.png");
   tallAbility = loadImage("assets/tall.png");
@@ -66,7 +66,6 @@ function setup() {
   backgroundImage = loadImage("assets/field.png");
   //determine start screen measurements
   state = "startScreen";
-  //buttonScalar = 0.3;
   buttonX = width/2;
   buttonY = height/2;
   buttonHeight = windowHeight/3.5;
@@ -76,7 +75,7 @@ function setup() {
   soccerBallRadius = windowHeight/15;
   soccerBallHeight = soccerBallRadius *2;
   soccerBallWidth = soccerBallRadius *2;
-  soccerBallX = 0 + soccerBallRadius;
+  soccerBallX = width/2;
   ground = height - soccerBallRadius;
   soccerBallY = ground;
   soccerBallSpeedX = 0;
@@ -133,8 +132,10 @@ function draw() {
     checkCursor();
     playerX = width - playerWidth*7;
     playerY = height - playerHeight/2;
-    soccerBallX = 0 + soccerBallRadius;
+    soccerBallX = width/2;
     soccerBallY = ground;
+    xVelocity = 0;
+    acceleration = 0;
   }
   if (state === "playSoccer") {
     noCursor();
@@ -149,6 +150,7 @@ function draw() {
     ballGravity();
     boundaries();
     goalScored();
+
   }
 }
 
@@ -221,7 +223,20 @@ function displayMenu() {
 
 function displayBall() {
   imageMode(CENTER);
-  image(soccerBall, soccerBallX, soccerBallY, soccerBallWidth, soccerBallHeight);
+
+  if (xVelocity > 0) {
+    rotation += 0.5; // value of constant rotation
+  }
+  else if (xVelocity < 0) {
+    rotation -= 0.5;
+  }
+  push();
+  translate(soccerBallX, soccerBallY);
+  rotate(rotation * PI / 16);
+  image(soccerBall, 0, 0, soccerBallWidth, soccerBallHeight);
+  translate(0, 0);
+  pop();
+
 }
 
 function displayNet() {
@@ -468,3 +483,4 @@ function playMusic() {
     toccata.stop();
   }
 }
+
