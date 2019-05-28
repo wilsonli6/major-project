@@ -13,7 +13,7 @@ let xOffset, yOffset;
 let playButton, buttonX, buttonY, buttonWidth, buttonHeight, buttonScalar;
 let soccerBall, soccerBallX, soccerBallY, soccerBallWidth, soccerBallHeight, soccerBallScalar, soccerBallRadius;
 let soccerBallSpeedX, soccerBallSpeedY;
-let soccerNet, soccerGoal, soccerNetX, soccerNetY, soccerGoalX, soccerGoalY, soccerNetWidth, soccerNetHeight, soccerNetScalar;
+let soccerNet, soccerGoal, soccerNetX, soccerNetY, soccerGoalX, soccerGoalY, soccerNetWidth, soccerNetHeight, soccerNetScalar, netBoundary;
 let backgroundImage;
 let directionOfMovement;
 let gravity, acceleration, xVelocity, yVelocity, ground;
@@ -87,7 +87,7 @@ function setup() {
 
   //soccer net measurements
   soccerNetScalar = 10;
-  soccerNetHeight = windowHeight/1.2;
+  soccerNetHeight = windowHeight/1.95;
   soccerNetWidth = windowWidth/6;
   soccerNetX = width - soccerNetWidth/2;
   soccerNetY = height - soccerNetHeight/2;
@@ -141,6 +141,7 @@ function draw() {
     noCursor();
     imageMode(CORNER);
     image(backgroundImage, 0, 0, windowWidth, windowHeight);
+    netBoundary = line(windowWidth, windowHeight/2, windowWidth/1.2, windowHeight/2.05);
     displayPlayer();
     displayBall();
     displayNet();
@@ -424,20 +425,22 @@ function boundaries() {
   }
 
   //net boundaries
-  if (Math.abs(soccerBallX - soccerNetX) <= 20) {
-    xVelocity = 0;
-  }
-   
-  if (Math.abs(soccerBallX - soccerNetX) <= 20 && soccerBallY < height/4){
-    xVelocity = -5;
+  if (soccerBallX >= windowWidth/1.2 <= 45 && soccerBallY < windowHeight/2.1) {
+    // xVelocity = 0;
     yVelocity = yVelocity * -1;
   }
+   
+  // if (Math.abs(soccerBallX - soccerNetX) <= windowWidth/2.7 && soccerBallY < height/12) {
+  //   xVelocity = -5;
+  //   yVelocity = yVelocity * -1;
+  // }
+  //needs to make boundaries so that the ball bounces
 }
 
 function goalScored() {
-  if (Math.abs(soccerBallX - soccerNetX) <= 45 && soccerBallY > height/4){
-    state = "startScreen";
-  }
+  // if (Math.abs(soccerBallX - soccerNetX) <= 45 && soccerBallY > height/4){
+  //   state = "startScreen";
+  // }
 }
 
 function displayGrid() {
