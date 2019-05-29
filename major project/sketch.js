@@ -404,12 +404,12 @@ function boundaries() {
   //so the ball can't leave the screen
   if (soccerBallX > width) {
     soccerBallX = width - soccerBallWidth;
-    xVelocity = xVelocity * -1;
+    xVelocity = xVelocity * -0.95;
   }
 
-  if (soccerBallX < 0) {
-    soccerBallX = 0 + soccerBallWidth;
-    xVelocity = xVelocity * -1;
+  if (soccerBallX < 0 + soccerBallWidth/2) {
+    soccerBallX = 0 + soccerBallWidth/2;
+    xVelocity = xVelocity * -0.9;
   }
 
   if (soccerBallY < 0 + soccerBallHeight/2) {
@@ -417,17 +417,16 @@ function boundaries() {
   }
   
   //so the player can't leave the screen
-  if (playerX > width) {
-    playerX = width;
+  if (playerX > width - playerWidth/2 ) {
+    playerX = width - playerWidth/2;
   }
-  if (playerX < 0) {
-    playerX = 0 - playerX/2;
+  if (playerX < 0 + playerWidth/2) {
+    playerX = 0 + playerWidth/2;
   }
 
   //net boundaries
-  if (soccerBallX >= windowWidth/1.2 <= 45 && soccerBallY < windowHeight/2.1) {
-    // xVelocity = 0;
-    yVelocity = yVelocity * -1;
+  if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
+    yVelocity = yVelocity * -0.95;
   }
    
   // if (Math.abs(soccerBallX - soccerNetX) <= windowWidth/2.7 && soccerBallY < height/12) {
