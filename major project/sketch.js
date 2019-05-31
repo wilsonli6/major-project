@@ -336,12 +336,12 @@ function animatePlayer() {
 function ballIsKicked() {
   if (playerImage === player.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
   && Math.abs(playerY - soccerBallY) <= 90){
-    soccerBallSpeedX = 20;
+    soccerBallSpeedX = 10;
     soccerBallX += soccerBallSpeedX;
     acceleration = -5;
     if (soccerBallY < ground) {
       if (ability === "strong") {
-        xVelocity = 30;
+        xVelocity = 25;
       }
       else {
         xVelocity = 15;
@@ -362,16 +362,16 @@ function ballIsKicked() {
 
   if (playerImage === bigPlayer.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
   && Math.abs(playerY - soccerBallY) <= 90){
-    soccerBallSpeedX = 30;
+    soccerBallSpeedX = 25;
     soccerBallX += soccerBallSpeedX;
-    acceleration = -5;
+    acceleration = -3;
     if (soccerBallY < ground) {
       xVelocity = 20;
     }
   }
   if (playerImage === bigPlayer.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
   && Math.abs(playerY - soccerBallY) <= 90) {
-    soccerBallSpeedX = -20;
+    soccerBallSpeedX = -15;
     soccerBallX += soccerBallSpeedX;
     acceleration = -2;
     //the left kick is not as powerful
@@ -394,6 +394,7 @@ function ballGravity() {
     soccerBallY = ground;
     //this allows for the ball to bounce
     yVelocity = yVelocity * -0.3;
+    //I need to make the ball roll a bit when it hits the ground
   }
   if (soccerBallY >= ground) {
     xVelocity = 0;
@@ -426,7 +427,7 @@ function boundaries() {
 
   //net boundaries
   if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
-    yVelocity = yVelocity * -0.95;
+    yVelocity = (yVelocity - 5)* -1;
   }
    
   // if (Math.abs(soccerBallX - soccerNetX) <= windowWidth/2.7 && soccerBallY < height/12) {
@@ -434,6 +435,7 @@ function boundaries() {
   //   yVelocity = yVelocity * -1;
   // }
   //needs to make boundaries so that the ball bounces
+  //check to see that the ball is above/below the crossbar
 }
 
 function goalScored() {
