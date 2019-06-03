@@ -12,7 +12,7 @@ let cellSize;
 let xOffset, yOffset;
 let playButton, buttonX, buttonY, buttonWidth, buttonHeight, buttonScalar;
 let soccerBall, soccerBallX, soccerBallY, soccerBallWidth, soccerBallHeight, soccerBallScalar, soccerBallRadius;
-let soccerBallSpeedX, soccerBallSpeedY;
+let soccerBallSpeedX, soccerBallSpeedY, beforeKickX, beforeKickY;
 let soccerNet, soccerGoal, soccerNetX, soccerNetY, soccerGoalX, soccerGoalY, soccerNetWidth, soccerNetHeight, soccerNetScalar, netBoundary;
 let backgroundImage;
 let directionOfMovement;
@@ -336,6 +336,8 @@ function animatePlayer() {
 function ballIsKicked() {
   if (playerImage === player.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
   && Math.abs(playerY - soccerBallY) <= 90){
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
     soccerBallSpeedX = 10;
     soccerBallX += soccerBallSpeedX;
     acceleration = -5;
@@ -351,6 +353,8 @@ function ballIsKicked() {
 
   if (playerImage === player.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
   && Math.abs(playerY - soccerBallY) <= 90) {
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
     soccerBallSpeedX = -20;
     soccerBallX += soccerBallSpeedX;
     acceleration = -2;
@@ -362,6 +366,8 @@ function ballIsKicked() {
 
   if (playerImage === bigPlayer.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
   && Math.abs(playerY - soccerBallY) <= 90){
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
     soccerBallSpeedX = 25;
     soccerBallX += soccerBallSpeedX;
     acceleration = -3;
@@ -371,6 +377,8 @@ function ballIsKicked() {
   }
   if (playerImage === bigPlayer.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
   && Math.abs(playerY - soccerBallY) <= 90) {
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
     soccerBallSpeedX = -15;
     soccerBallX += soccerBallSpeedX;
     acceleration = -2;
@@ -414,6 +422,7 @@ function boundaries() {
   }
 
   if (soccerBallY < 0 + soccerBallHeight/2) {
+    soccerBallY = 0 + soccerBallHeight/2;
     yVelocity = yVelocity * -1;
   }
   
@@ -429,6 +438,9 @@ function boundaries() {
   if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
     yVelocity = (yVelocity - 5)* -1;
   }
+  if (windowWidth >= beforeKickX && beforeKickX >= windowWidth/1.2 && windowHeight/2 <= beforeKickY && soccerBallY > windowHeight/2) {
+    yVelocity = yVelocity -6;
+  }
    
   // if (Math.abs(soccerBallX - soccerNetX) <= windowWidth/2.7 && soccerBallY < height/12) {
   //   xVelocity = -5;
@@ -439,9 +451,9 @@ function boundaries() {
 }
 
 function goalScored() {
-  // if (Math.abs(soccerBallX - soccerNetX) <= 45 && soccerBallY > height/4){
-  //   state = "startScreen";
-  // }
+  if (Math.abs(soccerBallX - soccerNetX) <= 45 && soccerBallY > windowHeight/2){
+    state = "startScreen";
+  }
 }
 
 function displayGrid() {
