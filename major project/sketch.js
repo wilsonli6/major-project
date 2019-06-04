@@ -4,6 +4,7 @@
 //Soccer Ball Assignment
 
 let player, bigPlayer, playerHeight, playerWidth, playerX, playerY, playerImage;
+let player2, bigPlayer2, player2X, player2Y, playerImage2;
 let state, ability, fastAbility, tallAbility, strongAbility, shootingAbility;
 let cellPictureHeight, cellPictureWidth;
 let txt;
@@ -14,7 +15,7 @@ let playButton, buttonX, buttonY, buttonWidth, buttonHeight, buttonScalar;
 let soccerBall, soccerBallX, soccerBallY, soccerBallWidth, soccerBallHeight, soccerBallScalar, soccerBallRadius;
 let soccerBallSpeedX, soccerBallSpeedY, beforeKickX, beforeKickY;
 let soccerNet, soccerGoal, soccerNetX, soccerNetY, soccerGoalX, soccerGoalY, soccerNetWidth, soccerNetHeight, soccerNetScalar, netBoundary;
-let backgroundImage;
+let backgroundImage, netLine;
 let directionOfMovement;
 let gravity, acceleration, xVelocity, yVelocity, ground;
 let xcoord, ycoord;
@@ -38,6 +39,22 @@ function preload() {
 
   //big player for tall ability
   bigPlayer = {
+    kickingRight: loadImage("assets/statureRight.png"),
+    kickingLeft : loadImage("assets/statureLeft.png"),
+    facingLeft: loadImage("assets/stature.png"),
+    facingRight: loadImage("assets/stature.png")
+  };
+
+  //2nd player
+  player2 = {
+    kickingRight: loadImage("assets/kickingLeft.png"),
+    kickingLeft: loadImage("assets/kickingRight.png"),
+    facingLeft: loadImage("assets/standing.png"),
+    facingRight: loadImage("assets/standing.png")
+  };
+
+  //2nd player for tall ability
+  bigPlayer2 = {
     kickingRight: loadImage("assets/statureRight.png"),
     kickingLeft : loadImage("assets/statureLeft.png"),
     facingLeft: loadImage("assets/stature.png"),
@@ -99,8 +116,11 @@ function setup() {
   playerWidth = windowWidth/8;
   playerX = width - playerWidth*7;
   playerY = height - playerHeight/2;
+  player2X = width - playerWidth;
+  player2Y = height - playerHeight/2;
   directionOfMovement = "right"; 
   playerImage = player.facingRight;
+  playerImage2 = player2.facingLeft;
 
   //startscreen measurements
   backgroundImage = loadImage("assets/stadium.png");
@@ -142,7 +162,9 @@ function draw() {
     imageMode(CORNER);
     image(backgroundImage, 0, 0, windowWidth, windowHeight);
     netBoundary = line(windowWidth, windowHeight/2, windowWidth/1.2, windowHeight/2.05);
+    netLine = line(0, windowHeight/2, windowWidth/6, windowHeight/2.05);
     displayPlayer();
+    displayPlayer2();
     displayBall();
     displayNet();
     movePlayer();
@@ -256,6 +278,11 @@ function displayPlayer() {
   }
 }
 
+function displayPlayer2() {
+  imageMode(CENTER);
+  image(playerImage2, player2X, player2Y, playerWidth, playerHeight);
+}
+
 function movePlayer() {
   if (keyIsDown(LEFT_ARROW)) {
     if (ability === "fast") {
@@ -336,11 +363,11 @@ function animatePlayer() {
 function ballIsKicked() {
   if (playerImage === player.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
   && Math.abs(playerY - soccerBallY) <= 90){
-    beforeKickX = soccerBallX;
-    beforeKickY = soccerBallY;
     soccerBallSpeedX = 10;
     soccerBallX += soccerBallSpeedX;
     acceleration = -5;
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
     if (soccerBallY < ground) {
       if (ability === "strong") {
         xVelocity = 25;
@@ -353,11 +380,11 @@ function ballIsKicked() {
 
   if (playerImage === player.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
   && Math.abs(playerY - soccerBallY) <= 90) {
-    beforeKickX = soccerBallX;
-    beforeKickY = soccerBallY;
     soccerBallSpeedX = -20;
     soccerBallX += soccerBallSpeedX;
     acceleration = -2;
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
     //the left kick is not as powerful
     if (soccerBallY < ground) {
       xVelocity = -3;
@@ -366,22 +393,22 @@ function ballIsKicked() {
 
   if (playerImage === bigPlayer.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
   && Math.abs(playerY - soccerBallY) <= 90){
-    beforeKickX = soccerBallX;
-    beforeKickY = soccerBallY;
     soccerBallSpeedX = 25;
     soccerBallX += soccerBallSpeedX;
     acceleration = -3;
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
     if (soccerBallY < ground) {
       xVelocity = 20;
     }
   }
   if (playerImage === bigPlayer.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
   && Math.abs(playerY - soccerBallY) <= 90) {
-    beforeKickX = soccerBallX;
-    beforeKickY = soccerBallY;
     soccerBallSpeedX = -15;
     soccerBallX += soccerBallSpeedX;
     acceleration = -2;
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
     //the left kick is not as powerful
     if (soccerBallY < ground) {
       xVelocity = -3;
@@ -414,16 +441,22 @@ function boundaries() {
   if (soccerBallX > width) {
     soccerBallX = width - soccerBallWidth;
     xVelocity = xVelocity * -0.95;
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
   }
 
   if (soccerBallX < 0 + soccerBallWidth/2) {
     soccerBallX = 0 + soccerBallWidth/2;
     xVelocity = xVelocity * -0.9;
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
   }
 
   if (soccerBallY < 0 + soccerBallHeight/2) {
     soccerBallY = 0 + soccerBallHeight/2;
     yVelocity = yVelocity * -1;
+    beforeKickX = soccerBallX;
+    beforeKickY = soccerBallY;
   }
   
   //so the player can't leave the screen
@@ -438,8 +471,11 @@ function boundaries() {
   if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
     yVelocity = (yVelocity - 5)* -1;
   }
-  if (windowWidth >= beforeKickX && beforeKickX >= windowWidth/1.2 && windowHeight/2 <= beforeKickY && soccerBallY > windowHeight/2) {
-    yVelocity = yVelocity -6;
+  if (windowWidth/6 >= soccerBallX && soccerBallX >= 0 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
+    yVelocity = yVelocity* -1;
+  }
+  if (windowWidth >= beforeKickX && beforeKickX >= windowWidth/1.2 && windowHeight/2 <= beforeKickY && soccerBallY < windowHeight/2) {
+    soccerBallY = beforeKickY;
   }
    
   // if (Math.abs(soccerBallX - soccerNetX) <= windowWidth/2.7 && soccerBallY < height/12) {
@@ -451,7 +487,8 @@ function boundaries() {
 }
 
 function goalScored() {
-  if (Math.abs(soccerBallX - soccerNetX) <= 45 && soccerBallY > windowHeight/2){
+  if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.12 && soccerBallY > windowHeight/1.9) {
+    xVelocity = 0;
     state = "startScreen";
   }
 }
