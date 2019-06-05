@@ -141,11 +141,14 @@ function draw() {
 
   if (state === "startScreen") {
     checkCursor();
+    imageMode(CORNER);
     image(backgroundImage, 0, 0, width, height);
-    displayText();
+    push();
     translate(xOffset, yOffset);
     displayGrid();
     displayAbilities();
+    pop();
+    displayText();
   }
   if (state === "clickPlay") {
     displayMenu();
@@ -219,6 +222,7 @@ function clickedOnButton(x, y) {
 }
 
 function checkCursor() {
+  //beta test Henry: instructions page and abilities description
   if (mouseX >= buttonX &&
     mouseX <= buttonWidth &&
     mouseY >= buttonY &&
@@ -504,6 +508,26 @@ function displayGrid() {
 function displayText() {
   textSize(40);
   text(txt, width/2.7, height/5);
+  if (xcoord === 0 && ycoord === 0 && state === "startScreen") {
+    textSize(25);
+    textStyle(BOLD);
+    text("This ability makes your character run faster", mouseX-windowWidth/3, mouseY);
+  }
+  if (xcoord === 1 && ycoord === 0 && state === "startScreen") {
+    textSize(25);
+    textStyle(BOLD);
+    text("This ability makes your character lob the ball higher", mouseX, mouseY);
+  }
+  if (xcoord === 1 && ycoord === 1 && state === "startScreen") {
+    textSize(25);
+    textStyle(BOLD);
+    text("This ability makes your character taller", mouseX, mouseY);
+  }
+  if (xcoord === 0 && ycoord === 1 && state === "startScreen") {
+    textSize(25);
+    textStyle(BOLD);
+    text("This ability makes your character kick further", mouseX-windowWidth/3, mouseY);
+  }
 }
 
 function displayAbilities() {
