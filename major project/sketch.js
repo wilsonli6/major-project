@@ -441,26 +441,40 @@ function ballGravity() {
 }
 
 function boundaries() {
+  //net boundaries
+  if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
+    yVelocity = (yVelocity - 5)* -1;
+  }
+  if (windowWidth/6 >= soccerBallX && soccerBallX >= 0 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
+    yVelocity = yVelocity* -1;
+  }
+  if (windowWidth >= beforeKickX && beforeKickX >= windowWidth/1.2 
+    && windowHeight/2 >= beforeKickY && soccerBallY -soccerBallRadius >= windowHeight/2
+    && windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2) {
+    soccerBallY = beforeKickY;
+    yVelocity = yVelocity * -1;
+  }
+
   //so the ball can't leave the screen
   if (soccerBallX > width) {
-    soccerBallX = width - soccerBallWidth;
-    xVelocity = xVelocity * -0.95;
     beforeKickX = soccerBallX;
     beforeKickY = soccerBallY;
+    soccerBallX = width - soccerBallWidth;
+    xVelocity = xVelocity * -0.95;
   }
 
   if (soccerBallX < 0 + soccerBallWidth/2) {
-    soccerBallX = 0 + soccerBallWidth/2;
-    xVelocity = xVelocity * -0.9;
     beforeKickX = soccerBallX;
     beforeKickY = soccerBallY;
+    soccerBallX = 0 + soccerBallWidth/2;
+    xVelocity = xVelocity * -0.9;
   }
 
   if (soccerBallY < 0 + soccerBallHeight/2) {
-    soccerBallY = 0 + soccerBallHeight/2;
-    yVelocity = yVelocity * -1;
     beforeKickX = soccerBallX;
     beforeKickY = soccerBallY;
+    soccerBallY = 0 + soccerBallHeight/2;
+    yVelocity = yVelocity * -1;
   }
   
   //so the player can't leave the screen
@@ -471,16 +485,7 @@ function boundaries() {
     playerX = 0 + playerWidth/2;
   }
 
-  //net boundaries
-  if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
-    yVelocity = (yVelocity - 5)* -1;
-  }
-  if (windowWidth/6 >= soccerBallX && soccerBallX >= 0 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
-    yVelocity = yVelocity* -1;
-  }
-  if (windowWidth >= beforeKickX && beforeKickX >= windowWidth/1.2 && windowHeight/2 <= beforeKickY && soccerBallY < windowHeight/2) {
-    soccerBallY = beforeKickY;
-  }
+  
    
   // if (Math.abs(soccerBallX - soccerNetX) <= windowWidth/2.7 && soccerBallY < height/12) {
   //   xVelocity = -5;
