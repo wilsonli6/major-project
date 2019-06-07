@@ -5,9 +5,9 @@
 
 let player, bigPlayer, playerHeight, playerWidth, playerX, playerY, playerImage;
 let player2, bigPlayer2, player2X, player2Y, playerImage2;
-let state, ability, fastAbility, tallAbility, strongAbility, shootingAbility;
+let state, ability, ability2, fastAbility, tallAbility, strongAbility, shootingAbility;
 let cellPictureHeight, cellPictureWidth;
-let txt;
+let txt, txt2;
 let gridSize = 2;
 let cellSize;
 let xOffset, yOffset;
@@ -16,7 +16,7 @@ let soccerBall, soccerBallX, soccerBallY, soccerBallWidth, soccerBallHeight, soc
 let soccerBallSpeedX, soccerBallSpeedY, beforeKickX, beforeKickY;
 let soccerNet, soccerGoal, soccerNetX, soccerNetY, soccerGoalX, soccerGoalY, soccerNetWidth, soccerNetHeight, soccerNetScalar, netBoundary;
 let backgroundImage, netLine;
-let directionOfMovement;
+let directionOfMovement, directionOfMovement2;
 let gravity, acceleration, xVelocity, yVelocity, ground;
 let xcoord, ycoord;
 let song, march, toccata;
@@ -47,18 +47,18 @@ function preload() {
 
   //2nd player
   player2 = {
-    kickingRight: loadImage("assets/kickingLeft.png"),
-    kickingLeft: loadImage("assets/kickingRight.png"),
-    facingLeft: loadImage("assets/standing.png"),
-    facingRight: loadImage("assets/standing.png")
+    kickingRight: loadImage("assets/stirkingLeft.png"),
+    kickingLeft: loadImage("assets/strikingRight.png"),
+    facingLeft: loadImage("assets/blue.png"),
+    facingRight: loadImage("assets/blue.png")
   };
 
   //2nd player for tall ability
   bigPlayer2 = {
-    kickingRight: loadImage("assets/statureRight.png"),
-    kickingLeft : loadImage("assets/statureLeft.png"),
-    facingLeft: loadImage("assets/stature.png"),
-    facingRight: loadImage("assets/stature.png")
+    kickingRight: loadImage("assets/blueRight.png"),
+    kickingLeft : loadImage("assets/blueLeft.png"),
+    facingLeft: loadImage("assets/blueTall.png"),
+    facingRight: loadImage("assets/blueTall.png")
   };
 
   //Images for the start screen
@@ -118,13 +118,15 @@ function setup() {
   playerY = height - playerHeight/2;
   player2X = width - playerWidth;
   player2Y = height - playerHeight/2;
-  directionOfMovement = "right"; 
+  directionOfMovement = "right";
+  directionOfMovement2 = "left"; 
   playerImage = player.facingRight;
   playerImage2 = player2.facingLeft;
 
   //startscreen measurements
   backgroundImage = loadImage("assets/stadium.png");
-  txt = "🔥Select Your Ability🔥";
+  txt = "🔥Select Your Ability🔥 PLAYER 1";
+  txt2 = "❄Select Your Ability❄ PLAYER 2";
   cellSize = 150;
   xOffset = width/2.5;
   yOffset = height/3;
@@ -150,6 +152,17 @@ function draw() {
     pop();
     displayText();
   }
+  if (state === "startScreen2") {
+    checkCursor();
+    imageMode(CORNER);
+    image(backgroundImage, 0, 0, width, height);
+    push();
+    translate(xOffset, yOffset);
+    displayGrid();
+    displayAbilities();
+    pop();
+    displayText2();
+  }
   if (state === "clickPlay") {
     displayMenu();
     checkCursor();
@@ -171,6 +184,7 @@ function draw() {
     displayBall();
     displayNet();
     movePlayer();
+    movePlayer2();
     animatePlayer();
     ballIsKicked();
     ballGravity();
@@ -189,26 +203,51 @@ function mousePressed() {
 
   else if (state === "startScreen") {
     if (xcoord === 0 && ycoord === 0) {
-      state = "clickPlay";
+      state = "startScreen2";
       ability = "fast";
       playerImage = player.facingRight;
     }
 
     else if (xcoord === 0 && ycoord === 1) {
-      state = "clickPlay";
+      state = "startScreen2";
       ability = "strong";
       playerImage = player.facingRight;
     }
 
     else if (xcoord === 1 && ycoord === 0) {
-      state = "clickPlay";
+      state = "startScreen2";
       ability = "shoot";
       playerImage = player.facingRight;
     }
 
     else if (xcoord === 1 && ycoord === 1) {
-      state = "clickPlay";
+      state = "startScreen2";
       ability = "tall";
+      playerImage = bigPlayer.facingRight;
+    }
+  }
+  else if (state === "startScreen2") {
+    if (xcoord === 0 && ycoord === 0) {
+      state = "clickPlay";
+      ability2 = "fast";
+      playerImage = player.facingRight;
+    }
+
+    else if (xcoord === 0 && ycoord === 1) {
+      state = "clickPlay";
+      ability2 = "strong";
+      playerImage = player.facingRight;
+    }
+
+    else if (xcoord === 1 && ycoord === 0) {
+      state = "clickPlay";
+      ability2 = "shoot";
+      playerImage = player.facingRight;
+    }
+
+    else if (xcoord === 1 && ycoord === 1) {
+      state = "clickPlay";
+      ability2 = "tall";
       playerImage = bigPlayer.facingRight;
     }
   }
@@ -317,6 +356,39 @@ function movePlayer() {
     }
     else {
       playerImage = player.facingRight;
+    }
+  }
+}
+
+function movePlayer2() {
+  if (keyIsDown(65)) {
+    if (ability2 === "fast") {
+      player2X -= 15;
+    }
+    else {
+      player2X -= 10;
+    }
+    directionOfMovement2 = "left";
+    if (ability2 === "tall") {
+      playerImage2 = bigPlayer2.facingLeft;
+    }
+    else {
+      playerImage2 = player2.facingLeft;
+    }
+  }
+  if (keyIsDown(68)) {
+    if (ability2 === "fast") {
+      player2X += 15;
+    }
+    else {
+      player2X += 10;
+    }
+    directionOfMovement2 = "right";
+    if (ability2 === "tall") {
+      playerImage2 = bigPlayer2.facingRight;
+    }
+    else {
+      playerImage2 = player2.facingRight;
     }
   }
 }
@@ -477,12 +549,18 @@ function boundaries() {
     yVelocity = yVelocity * -1;
   }
   
-  //so the player can't leave the screen
+  //so the players can't leave the screen
   if (playerX > width - playerWidth/2 ) {
     playerX = width - playerWidth/2;
   }
   if (playerX < 0 + playerWidth/2) {
     playerX = 0 + playerWidth/2;
+  }
+  if (player2X > width - playerWidth/2 ) {
+    player2X = width - playerWidth/2;
+  }
+  if (player2X < 0 + playerWidth/2) {
+    player2X = 0 + playerWidth/2;
   }
 
   
@@ -529,6 +607,31 @@ function displayText() {
     text("This ability makes your character taller", mouseX, mouseY);
   }
   if (xcoord === 0 && ycoord === 1 && state === "startScreen") {
+    textSize(25);
+    textStyle(BOLD);
+    text("This ability makes your character kick further", mouseX-windowWidth/3, mouseY);
+  }
+}
+
+function displayText2() {
+  textSize(40);
+  text(txt2, width/2.7, height/5);
+  if (xcoord === 0 && ycoord === 0 && state === "startScreen2") {
+    textSize(25);
+    textStyle(BOLD);
+    text("This ability makes your character run faster", mouseX-windowWidth/3, mouseY);
+  }
+  if (xcoord === 1 && ycoord === 0 && state === "startScreen2") {
+    textSize(25);
+    textStyle(BOLD);
+    text("This ability makes your character lob the ball higher", mouseX, mouseY);
+  }
+  if (xcoord === 1 && ycoord === 1 && state === "startScreen2") {
+    textSize(25);
+    textStyle(BOLD);
+    text("This ability makes your character taller", mouseX, mouseY);
+  }
+  if (xcoord === 0 && ycoord === 1 && state === "startScreen2") {
     textSize(25);
     textStyle(BOLD);
     text("This ability makes your character kick further", mouseX-windowWidth/3, mouseY);
