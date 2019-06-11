@@ -573,7 +573,7 @@ function ballIsKicked() {
     acceleration = -3;
     //the left kick is not as powerful
     if (soccerBallY < ground) {
-      xVelocity = -20;
+      xVelocity = -25;
     }
   }
 }
@@ -600,18 +600,19 @@ function ballGravity() {
 
 function boundaries() {
   //net boundaries
-  if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
+  if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1-soccerBallRadius <= soccerBallY && soccerBallY <= windowHeight/2) {
+    yVelocity = yVelocity* -1;
+    //set to the x from before and bounce off
+  }
+  if (windowWidth/6 >= soccerBallX && soccerBallX >= 0 && windowHeight/2.1-soccerBallRadius <= soccerBallY && soccerBallY <= windowHeight/2-soccerBallRadius) {
     yVelocity = yVelocity* -1;
   }
-  if (windowWidth/6 >= soccerBallX && soccerBallX >= 0 && windowHeight/2.1 <= soccerBallY && soccerBallY <= windowHeight/2) {
-    yVelocity = yVelocity* -1;
-  }
-  if (windowWidth >= beforeKickX && beforeKickX >= windowWidth/1.2 
-    && windowHeight/2 >= beforeKickY && soccerBallY -soccerBallRadius >= windowHeight/2
-    && windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2) {
-    soccerBallY = beforeKickY;
-    yVelocity = yVelocity * -1;
-  }
+  // if (windowWidth >= beforeKickX && beforeKickX >= windowWidth/1.2 
+  //   && windowHeight/2 >= beforeKickY && soccerBallY -soccerBallRadius >= windowHeight/2
+  //   && windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2) {
+  //   soccerBallY = beforeKickY;
+  //   yVelocity = yVelocity * -1;
+  // }
 
   //so the ball can't leave the screen
   if (soccerBallX > width) {
@@ -660,7 +661,7 @@ function boundaries() {
 }
 
 function goalScored() {
-  if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.12 && soccerBallY > windowHeight/1.9 && yVelocity!== yVelocity*-1) {
+  if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.13 && soccerBallY > windowHeight/1.95) {
     xVelocity = 0;
     state = "startScreen";
   }
