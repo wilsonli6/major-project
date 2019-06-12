@@ -21,6 +21,7 @@ let gravity, acceleration, xVelocity, yVelocity, ground;
 let xcoord, ycoord;
 let song, march, toccata;
 let rotation = 0;
+let scoreboard;
 
 function preload() {
   //load images
@@ -28,6 +29,7 @@ function preload() {
   playButton = loadImage("assets/playButton.png");
   soccerNet = loadImage("assets/net.png");
   soccerGoal = loadImage("assets/goal.png");
+  scoreboard = loadImage("assets/scoreboard.jpg");
 
   // I organized the player into one object to make it easier to manage
   player = {
@@ -183,6 +185,7 @@ function draw() {
     netLine = line(0, windowHeight/2, windowWidth/6, windowHeight/2.05);
     beforeKickX = soccerBallX;
     beforeKickY = soccerBallY;
+    displayScoreboard();
     displayPlayer();
     displayPlayer2();
     displayBall();
@@ -731,6 +734,10 @@ function displayAbilities() {
   image(tallAbility, 1*cellSize, 1*cellSize, cellPictureWidth, cellPictureHeight);
   image(strongAbility, 1*cellSize, 0, cellPictureWidth, cellPictureHeight);
   image(shootingAbility, 0, 1*cellSize, cellPictureWidth, cellPictureHeight);
+}
+
+function displayScoreboard() {
+  image(scoreboard, 0, 0, 5, 5);
 }
 
 function playMusic() {
