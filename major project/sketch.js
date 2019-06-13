@@ -30,6 +30,7 @@ function preload() {
   soccerNet = loadImage("assets/net.png");
   soccerGoal = loadImage("assets/goal.png");
   scoreboard = loadImage("assets/scoreboard.jpg");
+  menu = loadImage("assets/stickman.jpg");
 
   // I organized the player into one object to make it easier to manage
   player = {
@@ -138,10 +139,17 @@ function setup() {
 }
 
 function draw() {
+  playMusic();
   background(220);
   xcoord = floor((mouseX-xOffset)/cellSize);
   ycoord = floor((mouseY-yOffset)/cellSize);
-  playMusic();
+
+  if (state === "menu") {
+    checkCursor();
+    imageMode(CORNER);
+    image(backgroundImage, 0, 0, width, height);
+    image(menu, width/2, height/2, width/3, height/3);
+  }
 
   if (state === "startScreen") {
     checkCursor();
@@ -185,10 +193,10 @@ function draw() {
     netLine = line(0, windowHeight/2, windowWidth/6, windowHeight/2.05);
     beforeKickX = soccerBallX;
     beforeKickY = soccerBallY;
-    displayScoreboard();
     displayPlayer();
     displayPlayer2();
     displayBall();
+    displayScoreboard();
     displayNet();
     movePlayer();
     movePlayer2();
@@ -737,14 +745,14 @@ function displayAbilities() {
 }
 
 function displayScoreboard() {
-  image(scoreboard, 0, 0, 5, 5);
+  image(scoreboard, width/7, height/7, width/4, height/4);
 }
 
 function playMusic() {
-  if (state === "startScreen" && !song.isPlaying()) {
+  if ((state === "startScreen" && !song.isPlaying()) || (state === "startScreen2" && !song.isPlaying())) {
     song.play();
   }
-  if (state !== "startScreen") {
+  if (state !== "startScreen" && state !== "startScreen2") {
     song.stop();
   }
 
