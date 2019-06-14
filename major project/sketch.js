@@ -30,7 +30,6 @@ function preload() {
   soccerNet = loadImage("assets/net.png");
   soccerGoal = loadImage("assets/goal.png");
   scoreboard = loadImage("assets/scoreboard.jpg");
-  menu = loadImage("assets/stickman.jpg");
 
   // I organized the player into one object to make it easier to manage
   player = {
@@ -64,6 +63,11 @@ function preload() {
     facingRight: loadImage("assets/blueTall.png")
   };
 
+  menu = {
+    pointer: loadImage("assets/stickman2.png"),
+    arrow: loadImage("assets/stickman.png")
+  };
+
   //Images for the start screen
   fastAbility = loadImage("assets/fast.png");
   tallAbility = loadImage("assets/tall.png");
@@ -85,7 +89,11 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   backgroundImage = loadImage("assets/field.png");
   //determine start screen measurements
-  state = "startScreen";
+  state = "menu";
+  bikeX = width/4;
+  bikeY = height/4;
+  bikeWidth = width/3;
+  bikeHeight = height/3;
   buttonX = width/2;
   buttonY = height/2;
   buttonHeight = windowHeight/3.5;
@@ -125,17 +133,18 @@ function setup() {
   directionOfMovement2 = "left"; 
   playerImage = player.facingRight;
   playerImage2 = player2.facingLeft;
+  menuColor = menu.arrow;
 
   //startscreen measurements
   backgroundImage = loadImage("assets/stadium.png");
   txt = "🔥Select Your Ability🔥 PLAYER 1";
   txt2 = "❄Select Your Ability❄ PLAYER 2";
+  menuText = "STICKMAN SOCCER";
   cellSize = 150;
   xOffset = width/2.5;
   yOffset = height/3;
   cellPictureWidth = cellSize;
   cellPictureHeight = cellSize;
-
 }
 
 function draw() {
@@ -148,7 +157,10 @@ function draw() {
     checkCursor();
     imageMode(CORNER);
     image(backgroundImage, 0, 0, width, height);
-    image(menu, width/2, height/2, width/3, height/3);
+    imageMode(CENTER);
+    textSize(40);
+    text(menuText, width/2.5, height/5);
+    image(menuColor, bikeX, bikeY, bikeWidth, bikeHeight);
   }
 
   if (state === "startScreen") {
@@ -193,10 +205,10 @@ function draw() {
     netLine = line(0, windowHeight/2, windowWidth/6, windowHeight/2.05);
     beforeKickX = soccerBallX;
     beforeKickY = soccerBallY;
+    displayScoreboard();
     displayPlayer();
     displayPlayer2();
     displayBall();
-    displayScoreboard();
     displayNet();
     movePlayer();
     movePlayer2();
@@ -210,6 +222,15 @@ function draw() {
 }
 
 function mousePressed() {
+  if (state === "menu") {
+    if (mouseX >= bikeX - bikeWidth/2 &&
+      mouseX <= bikeX + bikeWidth/2 &&
+      mouseY >= bikeY - bikeHeight/2 &&
+      mouseY <= bikeY + bikeHeight/2) {
+    state = "startScreen";
+  }
+}
+
   if (state === "clickPlay") {
     if (clickedOnButton(mouseX, mouseY)) {
       state = "playSoccer";
@@ -277,6 +298,7 @@ function clickedOnButton(x, y) {
 
 function checkCursor() {
   //beta test Henry: instructions page and abilities description
+  //cursor for play button
   if (mouseX >= buttonX &&
     mouseX <= buttonWidth &&
     mouseY >= buttonY &&
@@ -288,6 +310,21 @@ function checkCursor() {
     cursor(ARROW);
   }
 
+  //cursor for the menu
+  if (mouseX >= bikeX &&
+    mouseX <= bikeWidth &&
+    mouseY >= bikeY &&
+    mouseY <= bikeHeight) {
+    cursor("pointer");
+    menuColor = menu.pointer;
+  }
+
+  else {
+    cursor(ARROW);
+    menuColor = menu.arrow;
+  }
+
+  //cursor for abilities
   if (xcoord >= 0 && xcoord <= 1 && ycoord >= 0 && ycoord <= 1) {
     cursor("pointer");
   }
@@ -512,18 +549,23 @@ function ballIsKicked() {
 
   if (playerImage === player.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
   && Math.abs(playerY - soccerBallY) <= 90) {
-    soccerBallSpeedX = -20;
+    soccerBallSpeedX = -10;
     soccerBallX += soccerBallSpeedX;
-    acceleration = -2;
+    acceleration = -5;
     //the left kick is not as powerful
     if (soccerBallY < ground) {
-      xVelocity = -3;
+      if (ability === "strong") {
+        xVelocity = -25;
+      }
+      else {
+        xVelocity = -15;
+      }
     }
   }
 
   if (playerImage === bigPlayer.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
   && Math.abs(playerY - soccerBallY) <= 90){
-    soccerBallSpeedX = 25;
+    soccerBallSpeedX = 10;
     soccerBallX += soccerBallSpeedX;
     acceleration = -3;
     if (soccerBallY < ground) {
@@ -532,12 +574,12 @@ function ballIsKicked() {
   }
   if (playerImage === bigPlayer.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
   && Math.abs(playerY - soccerBallY) <= 90) {
-    soccerBallSpeedX = -15;
+    soccerBallSpeedX = -25;
     soccerBallX += soccerBallSpeedX;
-    acceleration = -2;
+    acceleration = -3;
     //the left kick is not as powerful
     if (soccerBallY < ground) {
-      xVelocity = -3;
+      xVelocity = -20;
     }
   }
 
@@ -559,12 +601,17 @@ function ballIsKicked() {
 
   if (playerImage2 === player2.kickingLeft && Math.abs(player2X - soccerBallX) <= 126 && player2X - soccerBallX >=-50
   && Math.abs(player2Y - soccerBallY) <= 90) {
-    soccerBallSpeedX = -20;
+    soccerBallSpeedX = -10;
     soccerBallX += soccerBallSpeedX;
-    acceleration = -2;
+    acceleration = -5;
     //the left kick is not as powerful
     if (soccerBallY < ground) {
-      xVelocity = -25;
+      if (ability === "strong") {
+        xVelocity = -25;
+      }
+      else {
+        xVelocity = -15;
+      }
     }
   }
 
@@ -584,7 +631,7 @@ function ballIsKicked() {
     acceleration = -3;
     //the left kick is not as powerful
     if (soccerBallY < ground) {
-      xVelocity = -25;
+      xVelocity = -20;
     }
   }
 }
@@ -676,6 +723,10 @@ function goalScored() {
     xVelocity = 0;
     state = "startScreen";
   }
+  if (windowWidth/8.4 >= soccerBallX && soccerBallX >= 0 && soccerBallY > windowHeight/1.95) {
+    xVelocity = 0;
+    state = "startScreen";
+}
 }
 
 function displayGrid() {
