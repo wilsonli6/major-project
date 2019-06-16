@@ -22,6 +22,7 @@ let xcoord, ycoord;
 let song, march, toccata;
 let rotation = 0;
 let scoreboard;
+let redScore, blueScore;
 
 function preload() {
   //load images
@@ -121,6 +122,8 @@ function setup() {
   soccerNetY = height - soccerNetHeight/2;
   soccerGoalX = 0 + soccerNetWidth/2;
   soccerGoalY = height - soccerNetHeight/2;
+  redScore = 0;
+  blueScore = 0;
 
   //player measurements
   playerHeight = windowHeight/3;
@@ -217,7 +220,10 @@ function draw() {
     ballGravity();
     boundaries();
     goalScored();
-
+    gameOver();
+  }
+  if (state === "gameOver") {
+    image(backgroundImage, 0, 0, windowWidth, windowHeight);
   }
 }
 
@@ -720,13 +726,29 @@ function boundaries() {
 
 function goalScored() {
   if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.13 && soccerBallY > windowHeight/1.95) {
+    redScore += 1;
     xVelocity = 0;
-    state = "startScreen";
+    soccerBallX = width/2;
+    soccerBallY = height/2;
+    playerX = width - playerWidth*7;
+    player2X = width - playerWidth;
+    // state = "startScreen";
   }
   if (windowWidth/8.4 >= soccerBallX && soccerBallX >= 0 && soccerBallY > windowHeight/1.95) {
+    blueScore += 1;
     xVelocity = 0;
-    state = "startScreen";
+    soccerBallX = width/2;
+    soccerBallY = height/2;
+    playerX = width - playerWidth*7;
+    player2X = width - playerWidth;
+    // state = "startScreen";
+  }
 }
+
+function gameOver() {
+  if (blueScore >= 10 || redScore >= 10) {
+    state = "congrats";
+  }
 }
 
 function displayGrid() {
@@ -797,6 +819,16 @@ function displayAbilities() {
 
 function displayScoreboard() {
   image(scoreboard, width/7, height/7, width/4, height/4);
+  text(redScore, width/4.5, height/4.5, width/4, height/4);
+  push();
+  fill(255, 0, 0);
+  text("RED", width/4.5, height/5.5, width/4, height/4);
+  pop();
+  text(blueScore, width/3.4, height/4.5, width/4, height/4);
+  push();
+  fill(0, 0, 255);
+  text("BLUE", width/3.4, height/5.5, width/4, height/4);
+  pop();
 }
 
 function playMusic() {
