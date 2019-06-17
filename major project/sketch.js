@@ -223,7 +223,15 @@ function draw() {
     gameOver();
   }
   if (state === "gameOver") {
+    imageMode(CORNER);
     image(backgroundImage, 0, 0, windowWidth, windowHeight);
+    if (redScore > blueScore) {
+      text("Winner RED", width/2, height/2, width/2, height/2);
+    }
+    else if (blueScore > redScore) {
+      text("Winner BLUE", width/2, height/2, width/2, height/2);
+    }
+    setTimeout(backToStartScreen, 1000);
   }
 }
 
@@ -747,8 +755,12 @@ function goalScored() {
 
 function gameOver() {
   if (blueScore >= 10 || redScore >= 10) {
-    state = "congrats";
+    state = "gameOver";
   }
+}
+
+function backToStartScreen() {
+  state = "menu";
 }
 
 function displayGrid() {
