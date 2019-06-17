@@ -157,14 +157,14 @@ function draw() {
   ycoord = floor((mouseY-yOffset)/cellSize);
 
   if (state === "menu") {
-    checkCursor();
     imageMode(CORNER);
     image(backgroundImage, 0, 0, width, height);
     imageMode(CENTER);
     textSize(40);
     text(menuText, width/2.5, height/5);
     image(menuColor, bikeX, bikeY, bikeWidth, bikeHeight);
-    toAbilities();
+    checkCursor();
+    bikeColor();
   }
 
   if (state === "startScreen") {
@@ -235,16 +235,16 @@ function draw() {
     setTimeout(backToStartScreen, 1000);
   }
 }
-function toAbilities() {
-  if (state === "menu") {
-    if (mouseX >= bikeX - bikeWidth/2 &&
-      mouseX <= bikeX + bikeWidth/2 &&
-      mouseY >= bikeY - bikeHeight/2 &&
-      mouseY <= bikeY + bikeHeight/2) {
-    state = "startScreen";
+
+function bikeColor() {
+  if (cursor(ARROW)) {
+    menuColor = bike.arrow;
+  }
+  if (cursor("pointer")) {
+    menuColor = bike.pointer;
   }
 }
-}
+
 function mouseClicked() {
   if (state === "menu") {
     if (mouseX >= bikeX - bikeWidth/2 &&
@@ -341,12 +341,10 @@ function checkCursor() {
     mouseX <= bikeWidth &&
     mouseY >= bikeY &&
     mouseY <= bikeHeight) {
-    menuColor = menu.cursor;
     cursor("pointer");
   }
 
   else {
-    menuColor = menu.arrow;
     cursor(ARROW);
   }
 
