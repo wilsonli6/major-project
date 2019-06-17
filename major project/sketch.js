@@ -672,7 +672,7 @@ function ballGravity() {
 
 function boundaries() {
   //net boundaries
-  if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1-soccerBallRadius <= soccerBallY && soccerBallY <= windowHeight/2) {
+  if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1-soccerBallRadius <= soccerBallY && soccerBallY <= windowHeight/2-soccerBallRadius) {
     yVelocity = yVelocity* -1;
     //set to the x from before and bounce off
   }
@@ -698,7 +698,7 @@ function boundaries() {
     beforeKickX = soccerBallX;
     beforeKickY = soccerBallY;
     soccerBallX = 0 + soccerBallWidth/2;
-    xVelocity = xVelocity * -0.9;
+    xVelocity = xVelocity * -1;
   }
 
   if (soccerBallY < 0 + soccerBallHeight/2) {
