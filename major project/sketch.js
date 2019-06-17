@@ -24,6 +24,7 @@ let rotation = 0;
 let scoreboard;
 let redScore, blueScore;
 let rectX, rectY, rectWidth, rectHeight;
+let menu, menuText, menuColor, bikeX, bikeY, bikeWidth, bikeHeight;
 
 function preload() {
   //load images
@@ -69,6 +70,7 @@ function preload() {
     pointer: loadImage("assets/stickman2.png"),
     arrow: loadImage("assets/stickman.png")
   };
+  menuText = loadImage("assets/text.png");
 
   //Images for the start screen
   fastAbility = loadImage("assets/fast.png");
@@ -148,7 +150,7 @@ function setup() {
   backgroundImage = loadImage("assets/stadium.png");
   txt = "🔥Select Your Ability🔥 PLAYER 1";
   txt2 = "❄Select Your Ability❄ PLAYER 2";
-  menuText = "STICKMAN SOCCER";
+  // menuText = "STICKMAN SOCCER";
   cellSize = 150;
   xOffset = width/2.5;
   yOffset = height/3;
@@ -162,20 +164,24 @@ function draw() {
   xcoord = floor((mouseX-xOffset)/cellSize);
   ycoord = floor((mouseY-yOffset)/cellSize);
 
+  if (state === "instructions") {
+    text("Welcome to STICKMAN SOCCER", width/2, height/3, width, height/4);
+  }
+
   if (state === "menu") {
     checkCursor();
     imageMode(CORNER);
     image(backgroundImage, 0, 0, width, height);
     imageMode(CENTER);
     textSize(40);
-    text(menuText, width/2.5, height/5);
+    image(menuText, width/2, height/5);
     image(menuColor, bikeX, bikeY, bikeWidth, bikeHeight);
     push();
     rectMode(CENTER);
     fill(0, 206, 209);
     rect(rectX, rectY, rectWidth, rectHeight);
     fill(255);
-    text("INSTRUCTIONS", rectX, rectY, rectWidth/1.4, rectHeight/2);
+    text("INSTRUCTIONS", rectX, rectY, rectWidth/1.1, rectHeight/2);
     pop();
   }
 
@@ -250,18 +256,19 @@ function draw() {
 
 function mouseClicked() {
   if (state === "menu") {
-  //   if (mouseX >= rectX - rectWidth/2 &&
-  //     mouseX <= rectX + rectWidth/2 &&
-  //     mouseY >= rectY - rectHeight/2 &&
-  //     mouseY <= rectY + rectHeight/2) {
-  //   state = "instructions";
-  // }
-  if (mouseX >= bikeX - bikeWidth/2 &&
+    if (mouseX >= rectX - rectWidth/2 &&
+      mouseX <= rectX + rectWidth/2 &&
+      mouseY >= rectY - rectHeight/2 &&
+      mouseY <= rectY + rectHeight/2) {
+      state = "instructions";
+    }
+    if (mouseX >= bikeX - bikeWidth/2 &&
     mouseX <= bikeX + bikeWidth/2 &&
     mouseY >= bikeY - bikeHeight/2 &&
     mouseY <= bikeY + bikeHeight/2) {
       state = "startScreen";
-}
+    }
+  }
 }
 
 function mousePressed() {
@@ -334,44 +341,44 @@ function checkCursor() {
   //beta test Henry: instructions page and abilities description
   //cursor for play button
   if (state === "clickPlay") {
-  if (mouseX >= buttonX &&
+    if (mouseX >= buttonX &&
     mouseX <= buttonWidth &&
     mouseY >= buttonY &&
     mouseY <= buttonHeight) {
-    cursor("pointer");
-  }
+      cursor("pointer");
+    }
 
-  else {
-    cursor(ARROW);
+    else {
+      cursor(ARROW);
+    }
   }
-}
 
   //cursor for the menu
   if (state === "menu") {
-  if (mouseX >= bikeX &&
-    mouseX <= bikeWidth &&
-    mouseY >= bikeY &&
-    mouseY <= bikeHeight) {
-    cursor("pointer");
-    menuColor = menu.pointer;
-  }
+    if (mouseX >= bikeX - bikeWidth/2 &&
+        mouseX <= bikeX + bikeWidth/2 &&
+        mouseY >= bikeY - bikeHeight/2 &&
+        mouseY <= bikeY + bikeHeight/2) {
+      cursor("pointer");
+      menuColor = menu.pointer;
+    }
 
-  else {
-    cursor(ARROW);
-    menuColor = menu.arrow;
+    else {
+      cursor(ARROW);
+      menuColor = menu.arrow;
+    }
   }
-}
 
   //cursor for abilities
   if (state === "startScreen" || state === "startScreen2"){
-  if (xcoord >= 0 && xcoord <= 1 && ycoord >= 0 && ycoord <= 1) {
-    cursor("pointer");
-  }
+    if (xcoord >= 0 && xcoord <= 1 && ycoord >= 0 && ycoord <= 1) {
+      cursor("pointer");
+    }
 
-  else {
-    cursor(ARROW);
+    else {
+      cursor(ARROW);
+    }
   }
-}
 }
 
 function displayMenu() {
@@ -773,6 +780,8 @@ function goalScored() {
 function gameOver() {
   if (blueScore >= 10 || redScore >= 10) {
     state = "gameOver";
+    blueScore = 0;
+    redScore = 0;
   }
 }
 
