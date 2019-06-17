@@ -91,8 +91,8 @@ function setup() {
   backgroundImage = loadImage("assets/field.png");
   //determine start screen measurements
   state = "menu";
-  bikeX = width/4;
-  bikeY = height/4;
+  bikeX = width/2;
+  bikeY = height/2;
   bikeWidth = width/3;
   bikeHeight = height/3;
   buttonX = width/2;
@@ -164,6 +164,7 @@ function draw() {
     textSize(40);
     text(menuText, width/2.5, height/5);
     image(menuColor, bikeX, bikeY, bikeWidth, bikeHeight);
+    toAbilities();
   }
 
   if (state === "startScreen") {
@@ -234,8 +235,7 @@ function draw() {
     setTimeout(backToStartScreen, 1000);
   }
 }
-
-function mousePressed() {
+function toAbilities() {
   if (state === "menu") {
     if (mouseX >= bikeX - bikeWidth/2 &&
       mouseX <= bikeX + bikeWidth/2 &&
@@ -244,7 +244,19 @@ function mousePressed() {
     state = "startScreen";
   }
 }
+}
+function mouseClicked() {
+  if (state === "menu") {
+    if (mouseX >= bikeX - bikeWidth/2 &&
+      mouseX <= bikeX + bikeWidth/2 &&
+      mouseY >= bikeY - bikeHeight/2 &&
+      mouseY <= bikeY + bikeHeight/2) {
+    state = "startScreen";
+  }
+}
+}
 
+function mousePressed() {
   if (state === "clickPlay") {
     if (clickedOnButton(mouseX, mouseY)) {
       state = "playSoccer";
@@ -329,13 +341,13 @@ function checkCursor() {
     mouseX <= bikeWidth &&
     mouseY >= bikeY &&
     mouseY <= bikeHeight) {
+    menuColor = menu.cursor;
     cursor("pointer");
-    menuColor = menu.pointer;
   }
 
   else {
-    cursor(ARROW);
     menuColor = menu.arrow;
+    cursor(ARROW);
   }
 
   //cursor for abilities
@@ -721,13 +733,6 @@ function boundaries() {
   if (player2X < 0 + playerWidth/2) {
     player2X = 0 + playerWidth/2;
   }
-
-  
-   
-  // if (Math.abs(soccerBallX - soccerNetX) <= windowWidth/2.7 && soccerBallY < height/12) {
-  //   xVelocity = -5;
-  //   yVelocity = yVelocity * -1;
-  // }
   //needs to make boundaries so that the ball bounces
   //check to see that the ball is above/below the crossbar
 }
@@ -740,7 +745,6 @@ function goalScored() {
     soccerBallY = height/2;
     playerX = width - playerWidth*7;
     player2X = width - playerWidth;
-    // state = "startScreen";
   }
   if (windowWidth/8.4 >= soccerBallX && soccerBallX >= 0 && soccerBallY > windowHeight/1.95) {
     blueScore += 1;
@@ -749,7 +753,6 @@ function goalScored() {
     soccerBallY = height/2;
     playerX = width - playerWidth*7;
     player2X = width - playerWidth;
-    // state = "startScreen";
   }
 }
 
