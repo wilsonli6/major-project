@@ -23,6 +23,7 @@ let song, march, toccata;
 let rotation = 0;
 let scoreboard;
 let redScore, blueScore;
+let rectX, rectY, rectWidth, rectHeight;
 
 function preload() {
   //load images
@@ -100,6 +101,11 @@ function setup() {
   buttonHeight = windowHeight/3.5;
   buttonWidth = windowWidth/5;
 
+  rectX = width/2;
+  rectY = height/1.3;
+  rectWidth = width/5;
+  rectHeight = height/5;
+
   //soccer ball measurements
   soccerBallRadius = windowHeight/15;
   soccerBallHeight = soccerBallRadius *2;
@@ -157,14 +163,20 @@ function draw() {
   ycoord = floor((mouseY-yOffset)/cellSize);
 
   if (state === "menu") {
+    checkCursor();
     imageMode(CORNER);
     image(backgroundImage, 0, 0, width, height);
     imageMode(CENTER);
     textSize(40);
     text(menuText, width/2.5, height/5);
     image(menuColor, bikeX, bikeY, bikeWidth, bikeHeight);
-    checkCursor();
-    bikeColor();
+    push();
+    rectMode(CENTER);
+    fill(0, 206, 209);
+    rect(rectX, rectY, rectWidth, rectHeight);
+    fill(255);
+    text("INSTRUCTIONS", rectX, rectY, rectWidth/1.4, rectHeight/2);
+    pop();
   }
 
   if (state === "startScreen") {
@@ -236,23 +248,19 @@ function draw() {
   }
 }
 
-function bikeColor() {
-  if (cursor(ARROW)) {
-    menuColor = bike.arrow;
-  }
-  if (cursor("pointer")) {
-    menuColor = bike.pointer;
-  }
-}
-
 function mouseClicked() {
   if (state === "menu") {
-    if (mouseX >= bikeX - bikeWidth/2 &&
-      mouseX <= bikeX + bikeWidth/2 &&
-      mouseY >= bikeY - bikeHeight/2 &&
-      mouseY <= bikeY + bikeHeight/2) {
-    state = "startScreen";
-  }
+  //   if (mouseX >= rectX - rectWidth/2 &&
+  //     mouseX <= rectX + rectWidth/2 &&
+  //     mouseY >= rectY - rectHeight/2 &&
+  //     mouseY <= rectY + rectHeight/2) {
+  //   state = "instructions";
+  // }
+  if (mouseX >= bikeX - bikeWidth/2 &&
+    mouseX <= bikeX + bikeWidth/2 &&
+    mouseY >= bikeY - bikeHeight/2 &&
+    mouseY <= bikeY + bikeHeight/2) {
+      state = "startScreen";
 }
 }
 
@@ -325,6 +333,7 @@ function clickedOnButton(x, y) {
 function checkCursor() {
   //beta test Henry: instructions page and abilities description
   //cursor for play button
+  if (state === "clickPlay") {
   if (mouseX >= buttonX &&
     mouseX <= buttonWidth &&
     mouseY >= buttonY &&
@@ -335,20 +344,26 @@ function checkCursor() {
   else {
     cursor(ARROW);
   }
+}
 
   //cursor for the menu
+  if (state === "menu") {
   if (mouseX >= bikeX &&
     mouseX <= bikeWidth &&
     mouseY >= bikeY &&
     mouseY <= bikeHeight) {
     cursor("pointer");
+    menuColor = menu.pointer;
   }
 
   else {
     cursor(ARROW);
+    menuColor = menu.arrow;
   }
+}
 
   //cursor for abilities
+  if (state === "startScreen" || state === "startScreen2"){
   if (xcoord >= 0 && xcoord <= 1 && ycoord >= 0 && ycoord <= 1) {
     cursor("pointer");
   }
@@ -356,6 +371,7 @@ function checkCursor() {
   else {
     cursor(ARROW);
   }
+}
 }
 
 function displayMenu() {
