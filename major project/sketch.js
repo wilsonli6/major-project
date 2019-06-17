@@ -24,6 +24,7 @@ let rotation = 0;
 let scoreboard;
 let redScore, blueScore;
 let rectX, rectY, rectWidth, rectHeight;
+let squareX, squareY, radius;
 let menu, menuText, menuColor, bikeX, bikeY, bikeWidth, bikeHeight;
 
 function preload() {
@@ -71,6 +72,8 @@ function preload() {
     arrow: loadImage("assets/stickman.png")
   };
   menuText = loadImage("assets/text.png");
+  instructionPic = loadImage("assets/football.jpg");
+  instructionText = loadImage("assets/instruction.png");
 
   //Images for the start screen
   fastAbility = loadImage("assets/fast.png");
@@ -107,6 +110,10 @@ function setup() {
   rectY = height/1.3;
   rectWidth = width/5;
   rectHeight = height/5;
+
+  squareX = width/2.7;
+  squareY = height/3;
+  length = width/10;
 
   //soccer ball measurements
   soccerBallRadius = windowHeight/15;
@@ -165,7 +172,15 @@ function draw() {
   ycoord = floor((mouseY-yOffset)/cellSize);
 
   if (state === "instructions") {
-    text("Welcome to STICKMAN SOCCER", width/2, height/3, width, height/4);
+    push();
+    imageMode(CORNER);
+    image(instructionPic, 0, 0, width, height);
+    fill(255, 0, 0);
+    image(instructionText, width/2, height/4, width/2, height/2);
+    rect(squareX, squareY, length, length);
+    fill(50,70, 90);
+    text("BACK", squareX+length/5, squareY+length/2, squareX*2, squareY*2);
+    pop();
   }
 
   if (state === "menu") {
@@ -267,6 +282,14 @@ function mouseClicked() {
     mouseY >= bikeY - bikeHeight/2 &&
     mouseY <= bikeY + bikeHeight/2) {
       state = "startScreen";
+    }
+  }
+  if (state === "instructions") {
+    if (mouseX >= squareX - (width/10)/2 &&
+    mouseX <= squareX + (width/10)/2 &&
+    mouseY >= squareY - (width/10)/2 &&
+    mouseY <= squareY + (width/10)/2) {
+      state = "menu";
     }
   }
 }
@@ -780,13 +803,13 @@ function goalScored() {
 function gameOver() {
   if (blueScore >= 10 || redScore >= 10) {
     state = "gameOver";
-    blueScore = 0;
-    redScore = 0;
   }
 }
 
 function backToStartScreen() {
   state = "menu";
+  blueScore = 0;
+  redScore = 0;
 }
 
 function displayGrid() {
