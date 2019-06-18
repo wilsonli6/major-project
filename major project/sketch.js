@@ -31,6 +31,7 @@ function preload() {
   //load images
   soccerBall = loadImage("assets/soccerBall.png");
   playButton = loadImage("assets/playButton.png");
+  fieldLines = loadImage("assets/fieldLines.jpg");
   soccerNet = loadImage("assets/net.png");
   soccerGoal = loadImage("assets/goal.png");
   scoreboard = loadImage("assets/scoreboard.jpg");
@@ -225,6 +226,10 @@ function draw() {
     displayText2();
   }
   if (state === "clickPlay") {
+    push();
+    imageMode(CORNER);
+    image(fieldLines, 0, 0, width, height);
+    pop();
     displayMenu();
     checkCursor();
     playerX = width - playerWidth*7;
