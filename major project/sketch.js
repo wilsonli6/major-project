@@ -24,7 +24,7 @@ let rotation = 0;
 let scoreboard;
 let redScore, blueScore;
 let rectX, rectY, rectWidth, rectHeight;
-let squareX, squareY, radius;
+let squareX, squareY, squareWidth, squareHeight;
 let menu, menuText, menuColor, bikeX, bikeY, bikeWidth, bikeHeight;
 
 function preload() {
@@ -113,7 +113,8 @@ function setup() {
 
   squareX = width/2.7;
   squareY = height/3;
-  length = width/10;
+  squareWidth = width/10;
+  squareHeight = height/10;
 
   //soccer ball measurements
   soccerBallRadius = windowHeight/15;
@@ -172,14 +173,15 @@ function draw() {
   ycoord = floor((mouseY-yOffset)/cellSize);
 
   if (state === "instructions") {
+    checkCursor();
     push();
     imageMode(CORNER);
     image(instructionPic, 0, 0, width, height);
     fill(255, 0, 0);
     image(instructionText, width/2, height/4, width/2, height/2);
-    rect(squareX, squareY, length, length);
+    rect(squareX, squareY, squareWidth, squareHeight);
     fill(50,70, 90);
-    text("BACK", squareX+length/5, squareY+length/2, squareX*2, squareY*2);
+    text("BACK", squareX + squareWidth/3.8, squareY + squareHeight/3, squareX*1.7, squareY*2);
     pop();
   }
 
@@ -285,10 +287,10 @@ function mouseClicked() {
     }
   }
   if (state === "instructions") {
-    if (mouseX >= squareX - (width/10)/2 &&
-    mouseX <= squareX + (width/10)/2 &&
-    mouseY >= squareY - (width/10)/2 &&
-    mouseY <= squareY + (width/10)/2) {
+    if (mouseX >= squareX &&
+    mouseX <= squareX + squareWidth &&
+    mouseY >= squareY &&
+    mouseY <= squareY + squareHeight) {
       state = "menu";
     }
   }
@@ -392,12 +394,24 @@ function checkCursor() {
     }
   }
 
+
   //cursor for abilities
   if (state === "startScreen" || state === "startScreen2"){
     if (xcoord >= 0 && xcoord <= 1 && ycoord >= 0 && ycoord <= 1) {
       cursor("pointer");
     }
 
+    else {
+      cursor(ARROW);
+    }
+  }
+  if (state === "instructions") {
+    if (mouseX >= squareX &&
+    mouseX <= squareX + squareWidth &&
+    mouseY >= squareY &&
+    mouseY <= squareY + squareHeight) {
+      cursor("pointer");
+    }
     else {
       cursor(ARROW);
     }
@@ -604,38 +618,38 @@ function animatePlayer() {
 function ballIsKicked() {
   if (playerImage === player.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
   && Math.abs(playerY - soccerBallY) <= 90){
-    soccerBallSpeedX = 10;
+    soccerBallSpeedX = 8;
     soccerBallX += soccerBallSpeedX;
     acceleration = -5;
     if (soccerBallY < ground) {
       if (ability === "strong") {
-        xVelocity = 25;
+        xVelocity = 20;
       }
       else {
-        xVelocity = 15;
+        xVelocity = 10;
       }
     }
   }
 
   if (playerImage === player.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
   && Math.abs(playerY - soccerBallY) <= 90) {
-    soccerBallSpeedX = -10;
+    soccerBallSpeedX = -8;
     soccerBallX += soccerBallSpeedX;
     acceleration = -5;
     //the left kick is not as powerful
     if (soccerBallY < ground) {
       if (ability === "strong") {
-        xVelocity = -25;
+        xVelocity = -20;
       }
       else {
-        xVelocity = -15;
+        xVelocity = -10;
       }
     }
   }
 
   if (playerImage === bigPlayer.kickingRight && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX <= 50
   && Math.abs(playerY - soccerBallY) <= 90){
-    soccerBallSpeedX = 10;
+    soccerBallSpeedX = 8;
     soccerBallX += soccerBallSpeedX;
     acceleration = -3;
     if (soccerBallY < ground) {
@@ -644,7 +658,7 @@ function ballIsKicked() {
   }
   if (playerImage === bigPlayer.kickingLeft && Math.abs(playerX - soccerBallX) <= 126 && playerX - soccerBallX >=-50
   && Math.abs(playerY - soccerBallY) <= 90) {
-    soccerBallSpeedX = -25;
+    soccerBallSpeedX = -8;
     soccerBallX += soccerBallSpeedX;
     acceleration = -3;
     //the left kick is not as powerful
@@ -656,15 +670,15 @@ function ballIsKicked() {
 
   if (playerImage2 === player2.kickingRight && Math.abs(player2X - soccerBallX) <= 126 && player2X - soccerBallX <= 50
   && Math.abs(player2Y - soccerBallY) <= 90){
-    soccerBallSpeedX = 10;
+    soccerBallSpeedX = 8;
     soccerBallX += soccerBallSpeedX;
     acceleration = -5;
     if (soccerBallY < ground) {
       if (ability === "strong") {
-        xVelocity = 25;
+        xVelocity = 20;
       }
       else {
-        xVelocity = 15;
+        xVelocity = 10;
       }
     }
   }
@@ -677,17 +691,17 @@ function ballIsKicked() {
     //the left kick is not as powerful
     if (soccerBallY < ground) {
       if (ability === "strong") {
-        xVelocity = -25;
+        xVelocity = -20;
       }
       else {
-        xVelocity = -15;
+        xVelocity = -10;
       }
     }
   }
 
   if (playerImage2 === bigPlayer2.kickingRight && Math.abs(player2X - soccerBallX) <= 126 && player2X - soccerBallX <= 50
   && Math.abs(player2Y - soccerBallY) <= 90){
-    soccerBallSpeedX = 25;
+    soccerBallSpeedX = 8;
     soccerBallX += soccerBallSpeedX;
     acceleration = -3;
     if (soccerBallY < ground) {
@@ -696,7 +710,7 @@ function ballIsKicked() {
   }
   if (playerImage2 === bigPlayer2.kickingLeft && Math.abs(player2X - soccerBallX) <= 126 && player2X - soccerBallX >=-50
   && Math.abs(player2Y - soccerBallY) <= 90) {
-    soccerBallSpeedX = -25;
+    soccerBallSpeedX = -8;
     soccerBallX += soccerBallSpeedX;
     acceleration = -3;
     //the left kick is not as powerful
