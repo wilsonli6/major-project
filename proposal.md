@@ -11,7 +11,7 @@ I will be trying to make a game similar to head soccer, with many different char
 - two working nets with boundaries
 - working gravity for the ball
 - different abilities for each individual character
-- keys activate the abilities
+- keys activate the player
 - background music
 
 

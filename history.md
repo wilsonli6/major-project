@@ -47,6 +47,7 @@ Progress Log
 
 ## June 11th, 2019
 - had more problems with the net
+- got Henry and Kyle to beta test
 
 ## June 12th, 2019
 - added a scoreboard
@@ -59,6 +60,7 @@ Progress Log
 
 ## June 15th, 2019
 - put different items in the start screen
+- got my sister to beta test the game
 
 ## June 16th, 2019
 - worked with how the mouse interacts with things on the screen
@@ -68,3 +70,4 @@ Progress Log
 - finished reflection
 - added instructions
 - fixed the score system
+- was able to finish all need to haves!

@@ -172,7 +172,7 @@ function draw() {
   background(220);
   xcoord = floor((mouseX-xOffset)/cellSize);
   ycoord = floor((mouseY-yOffset)/cellSize);
-
+//instructions page
   if (state === "instructions") {
     checkCursor();
     push();
@@ -185,7 +185,7 @@ function draw() {
     text("BACK", squareX + squareWidth/3.8, squareY + squareHeight/3, squareX*1.7, squareY*2);
     pop();
   }
-
+//start screen
   if (state === "menu") {
     checkCursor();
     imageMode(CORNER);
@@ -202,7 +202,7 @@ function draw() {
     text("INSTRUCTIONS", rectX, rectY, rectWidth/1.1, rectHeight/2);
     pop();
   }
-
+//abilities for the first player
   if (state === "startScreen") {
     checkCursor();
     imageMode(CORNER);
@@ -214,6 +214,7 @@ function draw() {
     pop();
     displayText();
   }
+  //abilities for second player
   if (state === "startScreen2") {
     checkCursor();
     imageMode(CORNER);
@@ -225,6 +226,7 @@ function draw() {
     pop();
     displayText2();
   }
+  //additional screen to click play
   if (state === "clickPlay") {
     push();
     imageMode(CORNER);
@@ -241,6 +243,7 @@ function draw() {
     xVelocity = 0;
     acceleration = 0;
   }
+  //the game
   if (state === "playSoccer") {
     noCursor();
     imageMode(CORNER);
@@ -263,6 +266,7 @@ function draw() {
     goalScored();
     gameOver();
   }
+  //when somebody wins
   if (state === "gameOver") {
     imageMode(CORNER);
     image(backgroundImage, 0, 0, windowWidth, windowHeight);
@@ -641,7 +645,6 @@ function ballIsKicked() {
     soccerBallSpeedX = -8;
     soccerBallX += soccerBallSpeedX;
     acceleration = -5;
-    //the left kick is not as powerful
     if (soccerBallY < ground) {
       if (ability === "strong") {
         xVelocity = -20;
@@ -666,7 +669,6 @@ function ballIsKicked() {
     soccerBallSpeedX = -8;
     soccerBallX += soccerBallSpeedX;
     acceleration = -3;
-    //the left kick is not as powerful
     if (soccerBallY < ground) {
       xVelocity = -20;
     }
@@ -693,7 +695,6 @@ function ballIsKicked() {
     soccerBallSpeedX = -10;
     soccerBallX += soccerBallSpeedX;
     acceleration = -5;
-    //the left kick is not as powerful
     if (soccerBallY < ground) {
       if (ability === "strong") {
         xVelocity = -20;
@@ -718,7 +719,6 @@ function ballIsKicked() {
     soccerBallSpeedX = -8;
     soccerBallX += soccerBallSpeedX;
     acceleration = -3;
-    //the left kick is not as powerful
     if (soccerBallY < ground) {
       xVelocity = -20;
     }
@@ -749,17 +749,10 @@ function boundaries() {
   //net boundaries
   if (windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2 && windowHeight/2.1-soccerBallRadius <= soccerBallY && soccerBallY <= windowHeight/2-soccerBallRadius) {
     yVelocity = yVelocity* -1;
-    //set to the x from before and bounce off
   }
   if (windowWidth/6 >= soccerBallX && soccerBallX >= 0 && windowHeight/2.1-soccerBallRadius <= soccerBallY && soccerBallY <= windowHeight/2-soccerBallRadius) {
     yVelocity = yVelocity* -1;
   }
-  // if (windowWidth >= beforeKickX && beforeKickX >= windowWidth/1.2 
-  //   && windowHeight/2 >= beforeKickY && soccerBallY -soccerBallRadius >= windowHeight/2
-  //   && windowWidth >= soccerBallX && soccerBallX >= windowWidth/1.2) {
-  //   soccerBallY = beforeKickY;
-  //   yVelocity = yVelocity * -1;
-  // }
 
   //so the ball can't leave the screen
   if (soccerBallX > width) {
